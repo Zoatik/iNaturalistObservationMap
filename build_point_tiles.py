@@ -13,6 +13,7 @@ import gzip
 import json
 import math
 import os
+from tqdm import tqdm
 from collections import defaultdict
 
 def lonlat_to_tile(lon, lat, z):
@@ -42,7 +43,7 @@ def main():
     # We'll stream rows and bucket them per (z, x, y) in memory, flushing per batches.
     # To minimize RAM, we rotate batches across zooms.
     def flush_buckets(buckets):
-        for (z, x, y), feats in buckets.items():
+        for (z, x, y), feats in tqdm(buckets.items(), desc="Flushing tiles", unit="tile"):
             if not feats:
                 continue
             folder = os.path.join(args.out, str(z), str(x))
@@ -72,7 +73,7 @@ def main():
         lat_key = args.lat_col
         lon_key = args.lon_col
 
-        for row in reader:
+        for row in tqdm(reader, desc="Processing rows"):
             rows_seen += 1
             try:
                 lat = float(row[lat_key])

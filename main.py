@@ -7,6 +7,7 @@ import argparse
 import html
 import pandas as pd
 import folium
+from tqdm import tqdm
 from folium.plugins import MarkerCluster
 
 def parse_args():
@@ -56,7 +57,7 @@ def main():
     m = folium.Map(location=[center_lat, center_lon], zoom_start=args.zoom, tiles="OpenStreetMap")
     cluster = MarkerCluster(name="Observations").add_to(m)
 
-    for _, row in df.iterrows():
+    for _, row in tqdm(df.iterrows(), desc="Processing rows", total=used_points):
         try:
             lat = float(row[lat_col])
             lon = float(row[lon_col])
