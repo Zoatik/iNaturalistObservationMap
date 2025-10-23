@@ -1,0 +1,9 @@
+[project]
+name = "pythonproject10"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "folium>=0.20.0",
+    "pandas>=2.3.3",
+]
